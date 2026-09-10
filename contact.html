@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Web Forge</title>
+<script src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<style>
+        /* ==========================
+   GLOBAL STYLES
+========================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0A2F5A;
+  padding: 15px 40px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  color: gold;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+}
+
+.nav-links li {
+  margin-left: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: gold;
+}
+
+.login-btn {
+  background: gold;
+  padding: 6px 12px;
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #f1b300;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ==========================
+   HERO SECTION
+========================== */
+
+.hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0A2F5A, #0a1f3a);
+  color: white;
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 55px);
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.hero button {
+  padding: 12px 25px;
+  border: none;
+  background: gold;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.hero button:hover {
+  background: #f1b300;
+}
+
+/* ==========================
+   ABOUT SECTION
+========================== */
+
+.about {
+  padding: 80px 20px;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.about h2 {
+  font-size: 36px;
+  color: #0A2F5A;
+  margin-bottom: 30px;
+}
+
+.about p {
+  max-width: 700px;
+  margin: auto;
+  font-size: 18px;
+  color: #0A2F5A;
+}
+
+/* ==========================
+   SERVICES SECTION
+========================== */
+
+.services {
+  padding: 80px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.services h2 {
+  font-size: 36px;
+  color: #0A2F5A;
+  margin-bottom: 50px;
+}
+
+.services-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.service-card {
+  background: linear-gradient(145deg, #f5f5f5, #eaeaea);
+  padding: 25px;
+  border-radius: 12px;
+  width: 280px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+}
+
+.service-card h3 {
+  color: #0A2F5A;
+  margin-bottom: 15px;
+}
+
+.service-card p {
+  color: #333;
+  font-size: 16px;
+}
+
+/* ==========================
+   SECTIONS GENERAL SPACING
+========================== */
+
+section {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* ==========================
+   RESPONSIVE DESIGN
+========================== */
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+
+  .services-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero button {
+    width: 80%;
+  }
+}
+
+/* ==========================
+   CONTACT SECTION
+========================== */
+.contact {
+  padding: 80px 20px;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.contact h2 {
+  font-size: 36px;
+  color: #0A2F5A;
+  margin-bottom: 20px;
+}
+
+.contact p {
+  font-size: 18px;
+  margin-bottom: 40px;
+  color: #0A2F5A;
+}
+
+.contact form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact input,
+.contact textarea {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: none;
+}
+
+.contact button {
+  padding: 12px 20px;
+  border: none;
+  background: #0A2F5A;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.contact button:hover {
+  background: #082040;
+}
+
+.footer-socials a {
+  color: white;
+  margin: 0 10px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.footer-socials a:hover {
+  color: gold;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+.footer {
+  background: #0A2F5A;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: gold;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.footer-links li a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-links li a:hover {
+  color: gold;
+}
+
+.footer p {
+  font-size: 14px;
+  color: #ddd;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Responsive form */
+@media (max-width: 768px) {
+  .contact form {
+    width: 90%;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <h2 class="logo">Digital Web</h2>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" class="login-btn">Login</a></li>
+  </ul>
+</nav>
+
+<!-- CONTACT SECTION -->
+<section class="contact">
+  <h2>Contact Us</h2>
+
+<div class="card section">
+<h2>Work With Us</h2>
+
+<p>
+Send a project request directly. I reply fast.
+</p>
+
+<form id="contactForm">
+
+<input type="text"
+placeholder="Your Name"
+id="clientName"
+required
+style="width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;outline:none;">
+
+<input type="email"
+placeholder="Your Email"
+id="clientEmail"
+required
+style="width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;outline:none;">
+
+<input type="text" placeholder="@Your Telegram username (optional)" id="clientTelegram" style="width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;outline:none;">
+<textarea
+placeholder="Describe your project"
+id="clientMessage"
+required
+style="width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;height:100px;"></textarea>
+
+<button
+type="submit"
+style="margin-top:12px;background:linear-gradient(135deg,#f5c26b,#e2ae4f);border:none;padding:12px 20px;border-radius:10px;font-weight:bold;cursor:pointer;">
+Send Request
+</button>
+
+</form>
+
+<p id="statusMsg" style="margin-top:10px;font-size:13px;"></p>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <h3 class="footer-logo">Digital Web</h3>
+    <div class="footer-socials">
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-twitter"></i></a>
+  <a href="#"><i class="fab fa-linkedin-in"></i></a>
+</div>
+    <p>&copy; 2026 Web Forge. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  Parse.initialize("FMi8wTMZQKC99MVOkqxSlUkGZnxifuOaF9t2CfGq", "ANomGvg0JYpEhDKMBaz4C5mO1PSDZq1QMBAEGOS7");
+Parse.serverURL = "https://parseapi.back4app.com/";
+console.log("Parse ready:", typeof Parse);
+console.log("🔥 Parse initialized successfully");
+</script>
+<script>
+
+function getDevice() {
+  return /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop";
+}
+
+function trackClick(platform) {
+  Parse.Cloud.run("trackContactClick", {
+    platform: platform,
+    ref: "portfolio",
+    device: getDevice()
+  });
+}
+
+</script>
+<script>
+
+function getSourcePage() {
+
+const params = new URLSearchParams(window.location.search);
+
+if(params.get("source")) {
+return params.get("source");
+}
+
+return "portfolio-home";
+
+}
+
+</script>
+
+
+<script>
+
+document.getElementById("contactForm").addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const name = document.getElementById("clientName").value;
+  const email = document.getElementById("clientEmail").value;
+  const telegram = document.getElementById("clientTelegram").value;
+  const message = document.getElementById("clientMessage").value;
+
+  const statusMsg = document.getElementById("statusMsg");
+
+  // ✅ FRONTEND VALIDATION FIRST
+  if (!name || !email || !message) {
+  statusMsg.innerHTML = "❌ Please fill required fields";
+  return;
+}
+
+  if (message.length < 5) {
+    statusMsg.innerHTML = "❌ Message too short";
+    return;
+  }
+
+  if (!email.includes("@")) {
+    statusMsg.innerHTML = "❌ Invalid email";
+    return;
+  }
+
+  statusMsg.innerHTML = "Sending...";
+
+  try {
+
+    const ClientRequests = Parse.Object.extend("ClientRequests");
+const obj = new ClientRequests();
+
+obj.set("name", name);
+obj.set("email", email);
+obj.set("telegram", telegram);
+obj.set("message", message);
+obj.set("device", getDevice());
+obj.set("source", getSourcePage());
+
+await obj.save();
+
+    statusMsg.innerHTML = "✅ Message sent successfully, I'll reply you soon through telegram or Gmail";
+
+    document.getElementById("contactForm").reset();
+
+  } catch (error) {
+
+    // 🔥 REAL ERROR FROM BACKEND
+    statusMsg.innerHTML = "❌ " + (error.message || error);
+
+    console.error(error);
+  }
+
+});
+
+
+</script>
+
+<script>
+// Hamburger menu
+const toggle = document.getElementById("menu-toggle");
+const navLinks = document.getElementById("nav-links");
+
+if (toggle) {
+  toggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
+
+// Dummy form submission (Fiverr demo)
+const form = document.getElementById('contact-form');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Message sent!');
+  form.reset();
+});
+</script>
+
+</body>
+</html>
